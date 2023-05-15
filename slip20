@@ -1,0 +1,528 @@
+-------------------------------------mt--------------------------
+slip 20
+
+Write an Android application to accept two numbers from the user, and displays them, but
+reject input if both numbers are greater than 10 and asks for two new numbers
+
+java file
+package com.example.mynumberaccept;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.Editable;
+import android.util.Log;import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+Button b;
+TextView tv;
+EditText et1, et2;
+int n1, n2;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+b = (Button) findViewById(R.id.b);
+tv = (TextView) findViewById(R.id.tv);
+b.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+et1 = (EditText) findViewById(R.id.et1);
+et2 = (EditText) findViewById(R.id.et2);
+String num1 = et1.getText().toString();
+String num2= et2.getText().toString();
+try{
+n1 = Integer.parseInt(num1);
+n2 = Integer.parseInt(num2);
+if(n1>10 && n2>10){
+Toast.makeText(MainActivity.this, "Please enter 2 new numbers",
+Toast.LENGTH_SHORT).show();
+}
+else{
+tv.setText(num1 + " " + num2);
+}
+}
+catch (NumberFormatException ne){
+Log.d("error", "error");
+}
+}
+});
+}
+}
+
+xml file
+<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<EditText
+android:layout_width="150dp"
+android:layout_height="50dp"
+android:id="@+id/et1"
+android:hint="enter first number" />
+<EditText
+android:layout_width="150dp"
+android:layout_height="50dp"
+android:id="@+id/et2"
+android:hint="enter second number" />
+<TextView
+android:layout_width="150dp"
+android:layout_height="50dp"
+android:id="@+id/tv" />
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="SHOW"
+android:id="@+id/b" />
+</LinearLayout>
+
+
+
+Create the simple calculator shown below also perform appropriate operation
+xml
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+<EditText
+android:layout_width="match_parent"android:layout_height="wrap_content"
+android:id="@+id/et"/>
+</LinearLayout>
+<TableRow>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button1"
+android:text="1"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button2"
+android:text="2"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button3"
+android:text="3"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/addition"
+android:text="+"/>
+</TableRow>
+<TableRow>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button4"
+android:text="4"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button5"
+android:text="5"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button6"
+android:text="6"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/subtraction"
+android:text="-"/>
+</TableRow>
+<TableRow>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button7"
+android:text="7"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button8"
+android:text="8"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"android:id="@+id/button9"
+android:text="9"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/multiplication"
+android:text="*"/>
+</TableRow>
+<TableRow>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/buttondot"
+android:text="."/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/button0"
+android:text="0"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/buttonClear"
+android:text="C"/>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/division"
+android:text="/"/>
+</TableRow>
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+<Button
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/buttonEqual"
+android:text="="/>
+</LinearLayout>
+</TableLayout>
+
+
+
+
+java
+package com.example.calculator;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+public class MainActivity extends AppCompatActivity {boolean fPlus = false;
+boolean fSub = false;
+boolean fDiv = false;
+boolean fMul = false;
+float val1 = 0;
+float val2 = 0;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+EditText e = (EditText) findViewById(R.id.et);
+Button b1 = (Button) findViewById(R.id.button1);
+Button b2 = (Button) findViewById(R.id.button2);
+Button b3 = (Button) findViewById(R.id.button3);
+Button b4 = (Button) findViewById(R.id.button4);
+Button b5 = (Button) findViewById(R.id.button5);
+Button b6 = (Button) findViewById(R.id.button6);
+Button b7 = (Button) findViewById(R.id.button7);
+Button b8 = (Button) findViewById(R.id.button8);
+Button b9 = (Button) findViewById(R.id.button9);
+Button b0 = (Button) findViewById(R.id.button0);
+Button bClear = (Button) findViewById(R.id.buttonClear);
+Button plus = (Button) findViewById(R.id.addition);
+Button minus = (Button) findViewById(R.id.subtraction);
+Button mul = (Button) findViewById(R.id.multiplication);
+Button div = (Button) findViewById(R.id.division);
+Button dot = (Button) findViewById(R.id.buttondot);
+Button equal = (Button) findViewById(R.id.buttonEqual);
+b1.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "1");
+}
+});
+b2.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "2");
+}
+});
+b3.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "3");
+}
+});
+b4.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "4");
+}
+});
+b5.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "5");}
+});
+b6.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "6");
+}
+});
+b7.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "7");
+}
+});
+b8.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "8");
+}
+});
+b9.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "9");
+}
+});
+b0.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText() + "0");
+}
+});
+bClear.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText("");
+}
+});
+dot.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+e.setText(e.getText()+".");
+}
+});
+plus.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+String num = e.getText().toString();
+val1 = Float.parseFloat(num);
+e.setText(" ");
+fPlus = true;
+}
+});
+minus.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+String num = e.getText().toString();
+val1 = Float.parseFloat(num);e.setText(" ");
+fSub = true;
+}
+});
+mul.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+String num = e.getText().toString();
+val1 = Float.parseFloat(num);
+e.setText(" ");
+fMul = true;
+}
+});
+div.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+String num = e.getText().toString();
+val1 = Float.parseFloat(num);
+e.setText(" ");
+fDiv = true;
+}
+});
+equal.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+String num2 = e.getText().toString();
+val2 = Float.parseFloat(num2);
+if(fPlus){
+float r = val1 + val2;
+fPlus = false;
+e.setText("" + r);
+}
+if(fSub){
+float r = val1 - val2;
+fSub = false;
+e.setText("" + r);
+}
+if(fMul){
+float r = val1 * val2;
+fMul = false;
+e.setText("" + r);
+}
+if(fDiv){
+float r = val1 / val2;
+fDiv = false;
+e.setText("" + r);
+}
+}
+});
+}
+}
+-------------------------os----------------------
+
+slip 20
+
+Write a C program that print the exit status of a terminated child process.
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+int main()
+{
+int n,s;
+n=fork();
+if(n==0)
+{
+execlp("date","date",NULL);
+}
+else
+{
+waitpid(n,&s,WNOHANG);
+if(WIFEXITED(s))
+{
+printf("exit status=>%d",WEXITSTATUS(s));
+}
+}
+return 0;
+}
+
+simple compile and run
+
+backup code for above program
+// C code to find the exit status of child process
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+// Driver code
+int main(void)
+{
+	pid_t pid = fork();
+	
+	if ( pid == 0 )
+	{
+	/* The pathname of the file passed to execl()
+		is not defined */
+	execl("/bin/sh", "bin/sh", "-c", "./nopath", "NULL");
+	}
+
+	int status;
+	
+	waitpid(pid, &status, 0);
+
+	if ( WIFEXITED(status) )
+	{
+		int exit_status = WEXITSTATUS(status);	
+		printf("Exit status of the child was %d\n",
+									exit_status);
+	}
+	return 0;
+}
+
+
+
+
+
+Write a C program that will read a directory containing a set of files, create a new sub directory
+called “backup” in same directory and copy all the files from directory to the new sub directory
+“backup”. You are supposed to use exec() with “cp” command. ( Create child processes that can execute
+each of the cp commands to copy the file from directory to subdirectory “backup”)
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <dirent.h>
+#include <string.h>
+#include <errno.h>
+
+int main(int argc, char *argv[]) {
+    DIR *dir;
+    struct dirent *entry;
+    pid_t pid;
+    int status;
+
+    // Check for correct number of arguments
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <directory>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    // Open directory
+    dir = opendir(argv[1]);
+    if (dir == NULL) {
+        perror("opendir");
+        exit(EXIT_FAILURE);
+    }
+
+    // Create backup directory
+    char backup_dir[PATH_MAX];
+    snprintf(backup_dir, sizeof(backup_dir), "%s/backup", argv[1]);
+    if (mkdir(backup_dir, 0777) == -1) {
+        if (errno != EEXIST) {
+            perror("mkdir");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    // Traverse directory and copy files to backup directory
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_type == DT_REG) { // regular file
+            pid = fork();
+            if (pid == -1) {
+                perror("fork");
+                exit(EXIT_FAILURE);
+            } else if (pid == 0) {
+                // Child process: execute cp command to copy file to backup directory
+                char source_path[PATH_MAX];
+                char target_path[PATH_MAX];
+                snprintf(source_path, sizeof(source_path), "%s/%s", argv[1], entry->d_name);
+                snprintf(target_path, sizeof(target_path), "%s/%s", backup_dir, entry->d_name);
+                execlp("cp", "cp", source_path, target_path, NULL);
+                perror("exec");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    // Wait for all child processes to finish
+    while (wait(&status) > 0) {
+        if (WIFEXITED(status) && WEXITSTATUS(status) != 0) {
+            fprintf(stderr, "Child process exited with error status %d\n", WEXITSTATUS(status));
+        }
+    }
+
+    // Close directory
+    if (closedir(dir) == -1) {
+        perror("closedir");
+        exit(EXIT_FAILURE);
+    }
+
+    return 0;
+}
+
+
+create a folder and save a text file in it any name
+now compile the program and run
+./a.out name of the folder eg ./a.out xyz this will create a backup folder in the folder you created
+
