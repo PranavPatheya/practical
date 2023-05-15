@@ -1,0 +1,317 @@
+-----------------------------------mt--------------------------
+
+slip 16
+
+Write an android program to display hello message using intent
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<Button
+android:id="@+id/btn"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Send Hello!"
+android:textSize="20dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toTopOf="parent" />
+</LinearLayout>
+
+java file 
+package com.example.myintent;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;import android.view.View;
+import android.widget.Button;
+public class MainActivity extends AppCompatActivity {
+Button btn;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+btn = (Button) findViewById(R.id.btn);
+btn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+Intent i = new Intent(getApplicationContext(), SecActivityActivi.class);
+i.putExtra("hello", "Hello!");
+startActivity(i);
+}
+});
+}
+}
+xml file 2
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".SecActivityActivi">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/text"
+android:textSize="20dp"/>
+</LinearLayout>
+
+java file 2
+package com.example.myintent;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;public class SecActivityActivi extends AppCompatActivity {
+TextView tv;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.secactivity);
+tv= (TextView) findViewById(R.id.text);
+Intent i = getIntent();
+String str = i.getStringExtra("hello");
+tv.setText(str);
+}
+}
+
+Create an Android application which will ask the user to input his name and a message,
+display the two items concatenated in a label, and change the format of the label using
+radio buttons and check boxes for selection, the user can make the label text bold,
+underlined or italic and change its color .include buttons to display the message in the
+label, clear the text boxes and label and then exit
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+<EditText
+android:layout_width="150dp"
+android:layout_height="50dp"
+android:id="@+id/et1" />
+<EditText
+android:layout_width="150dp"
+android:layout_height="50dp"
+android:id="@+id/et2" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="wrap_content"android:layout_height="wrap_content"
+android:orientation="vertical">
+<TextView
+android:layout_width="200dp"
+android:layout_height="50dp"
+android:id="@+id/tv" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+<RadioButton
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/rb1"
+android:text="Change Text Size" />
+<RadioButton
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/rb2"
+android:text="Change Font Style" />
+<CheckBox
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/cb1"
+android:text="Bold" />
+<CheckBox
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/cb2"
+android:text="Italic" />
+<CheckBox
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/cb3"
+android:text="Underline" />
+<RadioButton
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/rb3"android:text="Change Text Color" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/b1"
+android:text="FORMAT" />
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/b2"
+android:text="CLEAR" />
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/b3"
+android:text="EXIT" />
+</LinearLayout>
+</LinearLayout>
+
+
+java file
+package com.example.mytextformat;
+import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+public class MainActivity extends AppCompatActivity {
+EditText et1, et2;
+TextView tv;
+String s1,s2, s3;RadioButton rb1, rb2, rb3;
+CheckBox cb1, cb2, cb3;
+Button b1, b2, b3;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+rb1 = (RadioButton) findViewById(R.id.rb1);
+rb2 = (RadioButton) findViewById(R.id.rb2);
+rb3= (RadioButton) findViewById(R.id.rb3);
+cb1 = (CheckBox) findViewById(R.id.cb1);
+cb2 = (CheckBox) findViewById(R.id.cb2);
+cb3 = (CheckBox) findViewById(R.id.cb3);
+b1 = (Button) findViewById(R.id.b1);
+b2 = (Button) findViewById(R.id.b2);
+b3 = (Button) findViewById(R.id.b3);
+b1.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+et1 = (EditText) findViewById(R.id.et1);
+et2 = (EditText) findViewById(R.id.et2);
+tv= (TextView) findViewById(R.id.tv);
+s1 = et1.getText().toString();
+s2 = et2.getText().toString();
+s3 = s1 + s2;
+tv.setText(s3);
+if(rb1.isChecked()){
+tv.setTextSize(40);
+}
+if(rb2.isChecked()){
+if(cb1.isChecked())
+tv.setTypeface(null, Typeface.BOLD);
+if(cb2.isChecked())
+tv.setTypeface(null, Typeface.ITALIC);
+if(cb3.isChecked())
+tv.setPaintFlags(tv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+}
+if(rb3.isChecked()){
+tv.setTextColor(getResources().getColor(R.color.teal_700));
+}
+}
+});b2.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+tv.setText("");
+et1.setText("");
+et2.setText("");
+}
+});
+b3.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+System.exit(1);
+}
+});
+}
+}
+----------------------------os---------------------------
+
+slip 16
+
+Write a C program that catches the ctrl-c (SIGINT) signal for the first time and display the
+appropriate message and exits on pressing ctrl-c again.
+
+
+#include<stdio.h>
+#include<signal.h>
+void sh(int);
+
+int main()
+{
+signal(SIGINT,sh);
+while(1)
+{
+}
+return 0;
+}
+
+void sh(int n)
+{
+if(n==SIGINT)
+{
+printf("\nctl+c cought");
+fflush(stdout);
+signal(SIGINT,SIG_DFL);
+}
+}
+
+compile and run
+
+press cntrl+c
+again press cntrl+c
+
+
+
+Write a C program to implement the following unix/linux command on current directory
+ls –l > output.txt
+DO NOT simply exec ls -l > output.txt or system command from the program.
+
+
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<dirent.h>
+#include<string.h>
+#include<signal.h>
+int main()
+{
+    int pid=fork();
+    int fd=creat("output.txt",0777);
+    if(pid!=0 &&pid!=-1)
+    {
+        close(1);
+        dup(fd);
+        execlp("ls","ls","-l",NULL);
+        close(fd);
+    }
+    return 0;
+}
+
+
+simple compile and run the program and after that open the ouput.txt file in pc thats the answer
+

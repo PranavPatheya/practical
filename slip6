@@ -1,0 +1,350 @@
+
+--------------------------mt-------------------------------
+
+slip6
+Write an android program using list calculate union and intersection
+
+xml file
+
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<TableRow
+android:orientation="horizontal">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="100dp"
+android:text="List1" />
+<EditText
+android:layout_height="50dp"
+android:layout_width="100dp"
+android:id="@+id/l1"/>
+</TableRow>
+<TableRow
+android:orientation="horizontal">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="100dp"
+android:text="List2" />
+<EditText
+android:layout_height="50dp"
+android:layout_width="100dp"
+android:id="@+id/l2"/>
+</TableRow>
+<TableRow
+android:orientation="vertical">
+<RadioGroup
+android:id="@+id/rg"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content">
+<RadioButton
+android:id="@+id/rd1"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Union" /><RadioButton
+android:id="@+id/rd2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Intersection" />
+</RadioGroup>
+<Button
+android:layout_height="wrap_content"
+android:layout_width="wrap_content"
+android:text="SHOW"
+android:id="@+id/btn"/>
+</TableRow>
+</TableLayout>
+
+
+java file
+package com.example.mylist;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+public class MainActivity extends AppCompatActivity {
+EditText list1, list2;
+String str1="", str2="";
+RadioGroup rg;
+RadioButton rd1, rd2;
+Button btn;
+ArrayList<String> l1, l2;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);rg = (RadioGroup) findViewById(R.id.rg);
+btn = (Button) findViewById(R.id.btn);
+btn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+list1 = (EditText) findViewById(R.id.l1);
+list2 =(EditText) findViewById(R.id.l2);
+str1 = list1.getText().toString();
+str2 = list2.getText().toString();
+//String[] strl1 = str1.split(",");
+//String[] strl2 = str2.split(",");
+l1 = new ArrayList<String>(Collections.singleton(str1));
+l2 = new ArrayList<String>(Collections.singleton(str2));
+int id = rg.getCheckedRadioButtonId();
+switch(id){
+case R.id.rd1:l1.addAll(l2);
+Toast.makeText(MainActivity.this, "Union=" + l1.toString(),
+Toast.LENGTH_SHORT).show();
+break;
+case R.id.rd2:l1.retainAll(l2);
+Toast.makeText(MainActivity.this, "Intersection=" + l1.toString(),
+Toast.LENGTH_SHORT).show();
+break;
+default:
+Toast.makeText(MainActivity.this, "Please select radio button",
+Toast.LENGTH_SHORT).show();
+}
+}
+});
+}
+}
+
+
+Write an android program for login validation
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<EditText
+android:id="@+id/email"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:hint="Email id"
+android:textSize="50dp"/>
+<EditText
+android:id="@+id/pwd"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:hint="Password"
+android:inputType="textPassword"
+android:textSize="50dp"/>
+<Button
+android:id="@+id/b"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="LOGIN"
+android:textSize="50dp"/><TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="@string/mylink"
+android:textSize="30dp"/>
+</LinearLayout>
+
+java file
+package com.example.login;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import java.util.regex.Pattern;
+public class MainActivity extends AppCompatActivity {
+EditText name, contact, email, address, pwd;
+Button reg, cancel;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+AwesomeValidation av= new
+AwesomeValidation(ValidationStyle.BASIC);
+email = (EditText) findViewById(R.id.email);
+pwd = (EditText) findViewById(R.id.pwd);
+sub = (Button) findViewById(R.id.sub);
+cancel = (Button) findViewById(R.id.cancel);
+sub.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+av.addValidation(name, "[a-z][A-Z]+{1,}", "Name is
+mandatory field");
+av.addValidation(email, Patterns.EMAIL_ADDRESS, "Enter
+correct email id");
+av.addValidation(pwd, "[a-z][A-Z][0-9]+{8,}", "Please
+enter at least 8 characters password");
+av.validate();}
+});
+cancel.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+email.setText("");
+pwd.setText("");
+}
+});
+}
+}
+
+
+----------------------------os-------------------------
+slip6
+Write a C program to map a given file in memory and display the contain of mapped file in reverse.
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<sys/mman.h>
+#include<fcntl.h>
+int main(int argc,char*argv[])
+{
+int fd;
+int size;
+char *f,ch;
+int i;
+struct stat s;
+fd=open(argv[1],O_RDONLY);
+fstat(fd,&s);
+size=s.st_size;
+f=mmap(0,size,PROT_READ,MAP_PRIVATE,fd,0);
+for(i=size-1;i>=0;i--)
+{
+ch=f[i];
+putchar(ch);
+}
+close(fd);
+return 0;
+}
+create a file b1.txt and write your name in it save it
+compile the program and run ./a.out b1.txt output will be in reverse order
+
+
+
+
+
+Write a C program that behaves like a shell (command interpreter). It has its own prompt say
+“NewShell$”. Any normal shell command is executed from your shell by starting a child process to
+execute the system program corresponding to the command. It should additionally interpret the
+following command.
+i)
+list f<dirname> - print name of all files in directory
+ii)
+list n <dirname> - print number of all entries
+iii)
+list i<dirname> - print name and inode of all files
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<string.h>
+#include<dirent.h>
+void list(char ch,char *di);
+int main()
+{
+char comm[80],t1[20],t2[20],t3[20],t4[20];
+int n;
+system("clear");
+while(1)
+{
+printf("MyShell$");
+fflush(stdin);
+fgets(comm,80,stdin);
+n=sscanf(comm,"%s%s%s%s",t1,t2,t3,t4);
+switch(n)
+{
+case 1:
+	if(!fork())
+	{
+	execlp(t1,t1,NULL);
+	perror(t1);
+	}
+	break;
+case 2:
+	if(!fork())
+	{
+	execlp(t1,t1,t2,NULL);
+	perror(t1);
+	}
+	break;
+case 3:
+	if(strcmp(t1,"list")==0)
+	  list(t2[0],t3);
+	if(!fork())
+	{
+	execlp(t1,t1,t2,t3,NULL);
+	perror(t1);
+	}
+	break;
+case 4:
+	if(!fork())
+	{
+	execlp(t1,t1,t2,t3,t4,NULL);
+	perror(t1);
+	}
+	break;
+}
+}
+return 0;
+}
+void list(char ch,char*di)
+{
+DIR *d;
+struct dirent *dr;
+struct stat s;
+char temp[50];
+int cnt=0;
+d=opendir(di);
+if(d==NULL)
+{
+printf("unable to open dir");
+exit(0);
+}
+switch(ch)
+{
+case 'f':
+	while((dr=readdir(d))!=NULL)
+		printf("%s\n",dr->d_name);
+	break;
+case 'n':
+	while((dr=readdir(d))!=NULL)
+		cnt++;
+	printf("\nNumber of entries=>%d",cnt);
+	break;
+case 'i':
+	while((dr=readdir(d))!=NULL)
+	{
+		getcwd(temp,50);
+		strcat(temp,"/");
+		strcat(temp,di);
+		strcat(temp,"/");
+		strcat(temp,dr->d_name);
+		printf("%s\n",temp);
+		stat(temp,&s);
+		printf("%s\t%d\n",dr->d_name,s.st_ino);
+	}
+	break;
+}
+}
+
+compile then run then shell will open the type 
+list f foldername
+list i folder name
+list n folder name
+
+
+
+

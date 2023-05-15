@@ -1,0 +1,228 @@
+-------------------------mt------------------------
+
+slip 4
+
+Write an android program to display hello message using intent
+<?xml version="1.0" encoding="utf-8"?>
+
+xml file
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<Button
+android:id="@+id/btn"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Send Hello!"
+android:textSize="20dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toTopOf="parent" />
+</LinearLayout>
+
+java file
+
+package com.example.myintent;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;import android.view.View;
+import android.widget.Button;
+public class MainActivity extends AppCompatActivity {
+Button btn;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+btn = (Button) findViewById(R.id.btn);
+btn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+Intent i = new Intent(getApplicationContext(), SecActivityActivi.class);
+i.putExtra("hello", "Hello!");
+startActivity(i);
+}
+});
+}
+}
+
+2nd xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".SecActivityActivi">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/text"
+android:textSize="20dp"/>
+</LinearLayout>
+
+2nd java file
+package com.example.myintent;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;public class SecActivityActivi extends AppCompatActivity {
+TextView tv;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.secactivity);
+tv= (TextView) findViewById(R.id.text);
+Intent i = getIntent();
+String str = i.getStringExtra("hello");
+tv.setText(str);
+}
+}
+
+
+
+
+--------------------------os---------------------------------------------
+slip 4
+Write a C program to find file properties such as inode number, number of hard link, File
+permissions, File size, File access and modification time and so on of a given file using fstat() system
+call.
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<dirent.h>
+#include<string.h>
+#include<pwd.h>
+#include<grp.h>
+#include<time.h>
+int main(int args, char *argv[])
+{
+    struct stat s;
+    struct passwd *ps;
+    struct group *gs;
+    char t[50];
+    int fd; 	
+
+    if(args<2){
+        printf("No file name found");
+        exit(0);
+    }
+
+    fd=open(argv[1],O_RDONLY); 
+    fstat(fd, &s);
+    printf("\n");
+
+    if(S_ISREG(s.st_mode)){
+        printf("-");
+    }
+    if(S_ISDIR(s.st_mode)){
+        printf("d");
+    }
+    if(S_ISCHR(s.st_mode)){
+        printf("c");
+    }
+    if(S_ISFIFO(s.st_mode)){
+        printf("f");
+    }
+    if(S_ISBLK(s.st_mode)){
+        printf("b");
+    }
+    if(S_ISLNK(s.st_mode)){
+        printf("l");
+    }
+    if(S_ISSOCK(s.st_mode)){
+        printf("s");
+    }
+
+    printf((s.st_mode & S_IRUSR)?"r":"-");
+    printf((s.st_mode & S_IWUSR)?"w":"-");
+    printf((s.st_mode & S_IXUSR)?"x":"-");
+    printf((s.st_mode & S_IRGRP)?"r":"-");
+    printf((s.st_mode & S_IWGRP)?"w":"-");
+    printf((s.st_mode & S_IXGRP)?"x":"-");
+    printf((s.st_mode & S_IROTH)?"r":"-");
+    printf((s.st_mode & S_IWOTH)?"w":"-");
+    printf((s.st_mode & S_IXOTH)?"x":"-");
+
+
+    printf(" %d",s.st_nlink);
+    ps = getpwuid(s.st_uid);
+    printf(" %s",ps->pw_name);
+    gs = getgrgid(s.st_gid);
+    printf(" %s",gs->gr_name);
+
+    printf(" %d",s.st_size);
+    strcpy(t,ctime(&s.st_atim));
+    printf(" %s",t);
+    printf(" %s",argv[1]);
+
+    return 0;
+}
+
+
+compile 
+./a.out filename
+stat filename
+
+
+Write a C program to implement the following unix/linux command (use fork, pipe and exec
+system call). Your program should block the signal Ctrl-C and Ctrl-\ signal during the execution.
+ls –l | wc–l
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<signal.h>
+#include<unistd.h>
+void sh(int);
+int main()
+{
+int fd[2],n;
+pipe(fd);
+signal(SIGQUIT,sh);
+signal(SIGINT,sh);
+n=fork();
+if(n==0)
+{
+close (fd[0]);
+close(1);
+dup(fd[1]);
+close(fd[1]);
+execlp("ls","ls","-l",NULL);
+}
+else
+{
+wait();
+sleep(20);
+close (fd[1]);
+close(0);
+dup(fd[0]);
+close(fd[0]);
+execlp("wc","wc","-l",NULL);
+}
+return 0;
+}
+void sh(int n)
+{
+if(n==SIGQUIT)
+	printf("\n ctl+\\ cought");
+if(n==SIGINT)
+	printf("\n ctl+c cought");
+fflush(stdout);
+}
+
+compile and run
+press cntrl+c
+again run press cntrl+\
+again run and then wait
+
+

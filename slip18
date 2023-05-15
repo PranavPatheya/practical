@@ -1,0 +1,93 @@
+----------------------------mt----------------------------
+
+slip 18
+
+
+
+
+------------------------------os----------------------------
+
+slip 18
+
+Write a C program to display the last access and modified time of a given file.
+
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<string.h>
+#include<time.h>
+int main(int argc,char *argv[])
+{
+char s[100],t1[100],t2[100];
+struct stat s1,s2;
+printf("\nEnter file name=>");
+gets(s);
+stat(s,&s1);
+strcpy(t1,ctime(&s1.st_atim));
+strcpy(t2,ctime(&s1.st_mtim));
+printf("\nAccess time=>%s",t1);
+printf("\nmodification time=>%s",t2);
+return 0;
+}
+
+simple compile and run
+
+Write a C program to implement the following unix/linux command (use fork, pipe and exec system
+call). Your program should block the signal Ctrl-C and Ctrl-\ signal during the execution.
+ls –l | wc –l
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<signal.h>
+#include<unistd.h>
+void sh(int);
+int main()
+{
+int fd[2],n;
+pipe(fd);
+signal(SIGQUIT,sh);
+signal(SIGINT,sh);
+n=fork();
+if(n==0)
+{
+close (fd[0]);
+close(1);
+dup(fd[1]);
+close(fd[1]);
+execlp("ls","ls","-l",NULL);
+}
+else
+{
+wait();
+sleep(20);
+close (fd[1]);
+close(0);
+dup(fd[0]);
+close(fd[0]);
+execlp("wc","wc","-l",NULL);
+}
+return 0;
+}
+void sh(int n)
+{
+if(n==SIGQUIT)
+	printf("\n ctl+\\ cought");
+if(n==SIGINT)
+	printf("\n ctl+c cought");
+fflush(stdout);
+}
+compile run
+press cntrl+c
+again run
+press cntrl+\
+again compile run wait till exit
+
+now match the no which comes
+cross check type ls -l|wc -l
+

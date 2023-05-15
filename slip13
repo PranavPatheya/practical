@@ -1,0 +1,341 @@
+-----------------------mt--------------------------------
+
+slip 13
+
+Write a swift program to create a new string where all the character ‘a’ have
+been removed except first and last position.
+var str = "";
+print("Enter string:");
+str=readLine()!;
+let istart = str.index(after:str.startIndex);
+var firstletter = str[str.startIndex];
+let iend = str.index(before:str.endIndex);
+var lastletter = str[iend];
+print("Original string: ", str);
+let middleRange = istart ..< iend;
+var sub_string=str[istart ..< iend];
+sub_string.removeAll(where:{"a".contains($0)});
+var str1=String(firstletter);
+str1+=sub_string;
+str1+=String(lastletter);
+print("String: ", str1);
+
+
+Create table Company (id, name, address, phno). Create Android Application for performing
+the following operation on the table.(using sqlite database) i) Insert New Company Details.
+ii) Show All the Company Details
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<EditText android:layout_width="match_parent"
+android:layout_height="50dp"
+android:id="@+id/cid"
+android:hint="Enter company id" />
+<EditText
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:id="@+id/name"
+android:hint="Enter company name" />
+<EditText
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:id="@+id/address"
+android:hint="Enter company address" /><EditText
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:id="@+id/phno"
+android:hint="Enter company phone" />
+<Button
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:id="@+id/insert"
+android:text="INSERT" />
+<Button
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:id="@+id/save"
+android:text="SHOW" />
+<ListView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/lv" />
+</LinearLayout>
+
+java file
+package com.example.companydb;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
+public class MainActivity extends AppCompatActivity {
+Button insert, save;
+EditText et1, et2, et3, et4;
+ListView lv;
+@Override
+protected void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+insert = (Button) findViewById(R.id.insert);
+save = (Button) findViewById(R.id.save);
+CompanyDB compdb = new CompanyDB(this, "Comapny.db", null, 1);
+insert.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+et1 = (EditText) findViewById(R.id.cid);
+et2 = (EditText) findViewById(R.id.name);
+et3 = (EditText) findViewById(R.id.address);
+et4 = (EditText) findViewById(R.id.phno);
+String cid = et1.getText().toString();
+String name = et2.getText().toString();
+String addr = et3.getText().toString();
+String phno = et4.getText().toString();
+long r = compdb.addDetails(cid, name, addr, phno);
+Toast.makeText(MainActivity.this, "Values inserted successfully",
+Toast.LENGTH_SHORT).show();
+}
+});
+save.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+lv= (ListView) findViewById(R.id.lv);
+ArrayList<Company> l = compdb.getDetails();
+ArrayAdapter aa = new ArrayAdapter<Company>(getApplicationContext(),
+android.R.layout.simple_list_item_1, l);
+lv.setAdapter(aa);
+}
+});
+}
+}
+package com.example.companydb;
+public class Company {
+String cid, name, addr, phno;
+public Company(String cid, String name, String addr, String phno){
+this.cid = cid;
+this.name = name;
+this.addr = addr;this.phno = phno;
+}
+public String getName(){
+return this.name;
+}
+public String getCid(){
+return this.cid;
+}
+public String getAddr(){
+return this.addr;
+}
+public String getPhno(){
+return this.phno;
+}
+}
+
+database file
+package com.example.companydb;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import java.util.ArrayList;
+public class CompanyDB extends SQLiteOpenHelper {
+String dbname = "Comapny.db";
+public CompanyDB(Context c, String dbname, SQLiteDatabase.CursorFactory cf, int
+version){
+super(c, dbname, null, 1);
+}
+@Override
+public void onCreate(SQLiteDatabase db){
+db.execSQL("create table company(id varchar(20), cname text, address text, phno
+char(10))");
+}
+public long addDetails(String cid, String name, String addr, String phno){
+ContentValues cv = new ContentValues();
+cv.put("id", cid);
+cv.put("cname", name);cv.put("address", addr);
+cv.put("phno", phno);
+SQLiteDatabase db = this.getWritableDatabase();
+long ret = db.insert("company", null, cv);
+return ret;
+}
+public ArrayList<Company> getDetails(){
+String sql = "select * from company";
+SQLiteDatabase db = getReadableDatabase();
+ArrayList<Company> clist = new ArrayList<Company>();
+Cursor c = db.rawQuery(sql, null);
+if(c.getCount()>0){
+c.moveToFirst();
+do{
+String cid = c.getString(0);
+String name = c.getString(1);
+String addr = c.getString(2);
+String phno = c.getString(3);
+Company c1 = new Company(cid, name, addr, phno);
+clist.add(c1);
+}while(c.moveToNext());
+}
+return clist;
+}
+@Override
+public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+}
+}
+
+
+------------------------------os-------------------
+slip 13
+
+
+Write a C program that redirects standard output to a file output.txt. (use of dup and open system
+call).
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<fcntl.h>
+int main()
+{
+    int fd1,fd2;
+    fd1=open("output.txt",O_RDWR|O_CREAT|O_TRUNC,0666);
+    if(fd1<0)
+    {
+        printf("file creation error");
+        exit(0);
+    }
+    fd2=dup(1);
+    if(dup2(fd1,1)<0)
+    {
+        printf("\nunable to duplicate");
+        exit(0);
+    }
+    printf("1:pen\n");
+    printf("2:pencil\n");
+    close(fd1);
+    fflush(stdout);
+    dup2(fd2,1);
+    close(fd2);
+    printf("\nNormal output");
+    return 0;
+}
+
+
+just compile and run 
+after it open the output.txt file from ternmial cat output.txt or normal
+
+
+Write a C program that behaves like a shell (command interpreter). It has its own prompt say
+“NewShell$”. Any normal shell command is executed from your shell by starting a child process to
+execute the system program corresponding to the command. It should additionally interpret the
+following command.
+i)
+typeline +10 <filename> - print first 10 lines of file
+ii)
+typeline -20 <filename> - print last 20 lines of file
+iii)
+typeline a <filename> - print all lines of file
+
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+void make_toks(char *s, char *tok[]){
+    int i=0;
+    char *p;
+    p=strtok(s," ");
+    while(p!=NULL){
+        tok[i++]=p;
+        p=strtok(NULL," ");
+    }
+    tok[i]=NULL;
+}
+
+void typeline(char *fn,char *op){
+    int fh,i,j,n;
+    char c;
+    fh=open(fn,O_RDONLY);
+    if(fh==-1){
+        printf("File %s not found.\n",fn);
+        return;
+    }
+    if(strcmp(op,"a")==0){
+        while(read(fh,&c,1)>0){
+            printf("%c",c);
+        }
+        close(fh);
+        return;
+    }
+    n=atoi(op);
+    if(n>0){
+        i=0;
+        while(read(fh,&c,1)>0){
+            printf("%c",c);
+            if(c=='\n'){
+                i++;
+            }
+            if(i==n) break;
+        }
+    }
+    if(n<0){
+        i=0;
+        while(read(fh,&c,1)>0){
+            if(c=='\n') 
+            i++;        }
+        lseek(fh,0,SEEK_SET);
+        j=0;
+        while(read(fh,&c,1)>0){
+            if(c=='\n') j++;
+            if(j==i+n) break;
+        }
+        while(read(fh,&c,1)>0){
+            printf("%c",c);
+        }
+    }
+    close(fh);
+}
+int main(){
+    char buff[80],*args[10];
+    int pid;
+    while(1){
+        printf("myshell$");
+        fflush(stdin);
+        fgets(buff,80,stdin);
+        buff[strlen(buff)-1]='\0';
+        make_toks(buff,args);
+        if(strcmp(args[0],"typeline")==0){
+            typeline(args[2],args[1]);
+        }
+        else{
+            pid=fork();
+            if(pid>0){
+                wait();
+            }
+            else{
+                if(execvp(args[0],args)==-1){
+                    printf("Bad command.\n");
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+
+first create a file name b1.txt and in that type 1 to 10 press enter after each number and save it
+compile the program run using ./a.out
+then in shell type
+typeline +5 b1.txt
+typeline -5 b1.txt
+typeline a b1.txt
+
+

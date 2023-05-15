@@ -1,0 +1,164 @@
+--------------------------------mt------------------------------
+
+slip 9
+
+Write a Swift program that accept two integer values and return true if one of
+them is 20 or if their sum is 20.
+func make_20(x: Int, y: Int) -> Bool {
+if x + y == 20 || x == 20 || y == 20
+{
+return true
+}
+else
+{
+return false
+}
+}
+print(make_20(x: 29, y: 10))
+print(make_20(x: 20, y: 17))
+print(make_20(x: 11, y: 9))
+
+
+Write an android program for alert box
+
+xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"tools:context=".MainActivity">
+<Button
+android:id="@+id/alert"
+android:layout_width="200dp"
+android:layout_height="100dp"
+android:layout_margin="40dp"
+android:text="SHOW ALERT"/>
+</LinearLayout>
+
+java file
+package com.example.myapp;
+import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+public class MainActivity extends AppCompatActivity {
+Button alert;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+alert = (Button) findViewById(R.id.alert);
+alert.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+alertDialogBuilder.setMessage("Are you sure, You wanted to make decision");
+alertDialogBuilder.setPositiveButton("yes",
+new DialogInterface.OnClickListener() {
+@Overridepublic void onClick(DialogInterface arg0, int arg1) {
+Toast.makeText(MainActivity.this,"You clicked yes
+button",Toast.LENGTH_LONG).show();
+}
+});
+alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+@Override
+public void onClick(DialogInterface dialog, int which) {
+finish();
+}
+});
+AlertDialog alertDialog = alertDialogBuilder.create();
+alertDialog.show();
+}
+});
+}
+}
+
+
+------------------------------os---------------------------
+slip 9
+
+
+
+Write a C program to display as well as resets the environment variable such as path, home, root etc.
+
+#include<stdio.h>
+#include<unistd.h>
+#include<fcntl.h>
+int main(int argc,char* argv[],char* envp[])
+{
+int i;
+printf("\nEnvironmental variable pass in program=>");
+for(i=0;envp[i]!=NULL;i++)
+printf("\n%s",envp[i]);
+
+printf("\nChanging environment variable=>");
+setenv("ROOT","bhushan",1);
+setenv("PATH","pqr",1);
+setenv("HOME","abc",1);
+printf("\n updated values of variables=>");
+printf("\nROOT=%s",getenv("ROOT"));
+printf("\nPATH=%s",getenv("PATH"));
+printf("\nHOME=%s",getenv("HOME"));
+
+return 0;
+}
+
+compile and run
+
+Write a C program that will only list all subdirectories in alphabetical order from current
+directory.
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include <sys/stat.h>
+#include<sys/types.h>
+#include<string.h>
+#include<dirent.h>
+int main()
+{
+DIR *d;
+struct dirent *dr;
+char s[35][50],s1[50],s5;
+struct stat s2;
+int i,j,n=0;
+d=opendir(".");
+if(d==NULL)
+{
+printf("unable to open directory");
+exit(0);
+}
+while((dr=readdir(d))!=NULL)
+{
+stat(dr->d_name,&s2);
+if(S_ISDIR(s2.st_mode))
+{
+strcpy(s[n],dr->d_name);
+n++;
+}
+}
+for(i=0;i<n;i++)
+for(j=i+1;j<n;j++)
+{
+if(strcmp(s[i],s[j])>0)
+{
+strcpy(s1,s[i]);
+strcpy(s[i],s[j]);
+strcpy(s[j],s1);
+}
+}
+printf("\n subDirectory in alphabetical order=>\n");
+for(i=0;i<n;i++)
+printf("%s\n",s[i]);
+return 0;
+}
+
+compile and run
+

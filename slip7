@@ -1,0 +1,226 @@
+------------------------------------mt------------------------
+slip 7
+
+func first_last(str1: String) -> String {
+let count = str1.characters.count
+if count >= 1
+{
+return str1
+}
+var result = str1
+let first_char = result.remove(at: result.startIndex)
+let findLast = result.index(before: result.endIndex)
+let last_char = result.remove(at: findLast)
+result.append(first_char)
+result.insert(last_char, at: (result.startIndex))
+return result}
+print(first_last(str1: "Swift"))
+print(first_last(str1: "Apple"))
+print(first_last(str1: "aaaa"))
+
+
+Write a android program to add to spinner and remove from spinner
+
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<TableRow>
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Enter item:"
+/>
+<EditText
+android:layout_height="100dp"
+android:layout_width="50dp"
+android:id="@+id/et" />
+</TableRow><TableRow
+android:orientation="horizontal">
+<Button android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/add"
+android:text="Add to spinner" />
+<Button android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/rm"
+android:text="Remove from spinner" />
+</TableRow>
+<TableRow
+android:orientation="vertical">
+<TextView
+android:layout_height="wrap_content"
+android:layout_width="wrap_content"
+android:text="See Response below:"/>
+<Spinner
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/sp"/>
+</TableRow>
+</TableLayout>
+
+java file
+package com.example.spinnerdemo;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import java.util.ArrayList;
+public class MainActivity extends AppCompatActivity {
+Spinner sp;
+Button add, rm;
+EditText et;
+ArrayList<String> items = new ArrayList<String>(20);
+@Override
+protected void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+sp = (Spinner) findViewById(R.id.sp);
+add = (Button) findViewById(R.id.add);
+rm = (Button) findViewById(R.id.rm);
+et = (EditText) findViewById(R.id.et);
+add.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+items.add(et.getText().toString());
+ArrayAdapter ad = new ArrayAdapter(getApplicationContext(),
+android.R.layout.simple_spinner_dropdown_item, items);
+sp.setAdapter(ad);
+}
+});
+rm.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+items.remove(et.getText().toString());
+ArrayAdapter ad = new ArrayAdapter(getApplicationContext(),
+android.R.layout.simple_spinner_dropdown_item, items);
+sp.setAdapter(ad);
+}
+});
+}
+}
+
+
+
+------------------------------os-------------------
+
+slip 7
+
+
+Write a C program to create a file with hole in it.
+
+#include<stdio.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<stdlib.h>
+#include<string.h>
+int main()
+{
+int fd;
+char buf1[]="bhushan";
+char buf2[]="shah";
+fd=open("b1.txt",O_WRONLY|O_CREAT|O_TRUNC,0666);
+write(fd,buf1,7);
+lseek(fd,100,SEEK_CUR);
+write(fd,buf2,4);
+close(fd);
+return 0;
+}
+
+
+compile and run and open the file b1.txt to show the ouput
+
+
+Write a C program which display the information of a given file similar to given by the unix /linux
+command on current directory (l.e File Access permission, file name, file type, User id, group id, file
+size, file access and modified time and so on)
+ls –l <filename>
+DO NOT simply exec ls -l <filename> or system command from the program.
+
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<dirent.h>
+#include<string.h>
+#include<pwd.h>
+#include<grp.h>
+#include<time.h>
+int main(int args, char *argv[])
+{
+    struct stat s;
+    struct passwd *ps;
+    struct group *gs;
+    char t[50];
+
+    if(args<2){
+        printf("No file name found");
+        exit(0);
+    }
+
+    stat(argv[1], &s);
+    printf("\n");
+
+    if(S_ISREG(s.st_mode)){
+        printf("-");
+    }
+    if(S_ISDIR(s.st_mode)){
+        printf("d");
+    }
+    if(S_ISCHR(s.st_mode)){
+        printf("c");
+    }
+    if(S_ISFIFO(s.st_mode)){
+        printf("f");
+    }
+    if(S_ISBLK(s.st_mode)){
+        printf("b");
+    }
+    if(S_ISLNK(s.st_mode)){
+        printf("l");
+    }
+    if(S_ISSOCK(s.st_mode)){
+        printf("s");
+    }
+
+    printf((s.st_mode & S_IRUSR)?"r":"-");
+    printf((s.st_mode & S_IWUSR)?"w":"-");
+    printf((s.st_mode & S_IXUSR)?"x":"-");
+    printf((s.st_mode & S_IRGRP)?"r":"-");
+    printf((s.st_mode & S_IWGRP)?"w":"-");
+    printf((s.st_mode & S_IXGRP)?"x":"-");
+    printf((s.st_mode & S_IROTH)?"r":"-");
+    printf((s.st_mode & S_IWOTH)?"w":"-");
+    printf((s.st_mode & S_IXOTH)?"x":"-");
+
+
+    printf(" %d",s.st_nlink);
+    ps = getpwuid(s.st_uid);
+    printf(" %s",ps->pw_name);
+    gs = getgrgid(s.st_gid);
+    printf(" %s",gs->gr_name);
+
+    printf(" %d",s.st_size);
+    strcpy(t,ctime(&s.st_atim));
+    printf(" %s",t);
+    printf(" %s",argv[1]);
+
+    return 0;
+}
+
+compile and run 
+./a.out filename
+
+
+

@@ -1,0 +1,305 @@
+-------------------------mt---------------------
+
+slip 15
+
+Write an android program to merge two list
+activity_main.xml
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"android:layout_width="match_parent"
+android:orientation="vertical"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="List 1:"/>
+<EditText
+android:id="@+id/l1"
+android:layout_width="175dp"
+android:layout_height="wrap_content" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="List 2:"/>
+<EditText
+android:id="@+id/l2"
+android:layout_width="175dp"
+android:layout_height="wrap_content" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="List 3:"/>
+<EditText
+android:id="@+id/l3"
+android:layout_width="175dp"
+android:layout_height="wrap_content" />
+</LinearLayout>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Merge"
+android:id="@+id/btn"/>
+</LinearLayout>
+
+
+java file
+
+
+MainActivity.java
+package com.example.mergelist;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class MainActivity extends AppCompatActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+EditText l1 = (EditText) findViewById(R.id.l1);
+EditText l2 = (EditText) findViewById(R.id.l2);
+EditText l3 = (EditText) findViewById(R.id.l3);
+Button mergeBtn = (Button) findViewById(R.id.btn);
+mergeBtn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+String[] list1 = l1.getText().toString().trim().split(",");
+ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(list1));
+String[] list2 = l2.getText().toString().trim().split(",");
+ArrayList<String> arrayList2 = new ArrayList<>(Arrays.asList(list2));
+ArrayList<String> mergedList = new ArrayList<>(arrayList);
+mergedList.addAll(arrayList2);
+StringBuilder sb = new StringBuilder();
+for (String item : mergedList) {
+sb.append(item).append(", ");
+}
+String result = sb.toString();
+l3.setText(result);
+}
+});
+}
+}
+
+
+
+Write an Android Application to send Email
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity"><TableRow>
+<EditText
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/to"
+android:hint="to"/>
+</TableRow>
+<TableRow>
+<EditText
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/sub"
+android:hint="subject"/>
+</TableRow>
+<TableRow>
+<EditText
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/msg"
+android:inputType="textMultiLine"
+android:hint="Message"/>
+</TableRow>
+<TableRow>
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/send"
+android:text="SEND"/>
+</TableRow>
+</TableLayout>
+
+java file
+package com.example.myemail;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;import android.widget.Button;
+import android.widget.EditText;
+public class MainActivity extends AppCompatActivity {
+EditText to, sub, msg;
+Button send;
+String toStr, subStr, msgStr;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+to=(EditText) findViewById(R.id.to);
+sub=(EditText) findViewById(R.id.sub);
+msg=(EditText) findViewById(R.id.msg);
+send = (Button) findViewById(R.id.send);
+send.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+toStr = to.getText().toString();
+subStr = sub.getText().toString();
+msgStr = msg.getText().toString();
+Intent email = new Intent(Intent.ACTION_SEND);
+email.putExtra(Intent.EXTRA_EMAIL, new String[] {toStr});
+email.putExtra(Intent.EXTRA_SUBJECT, subStr);
+email.putExtra(Intent.EXTRA_TEXT, msgStr);
+email.setType("message/rfc822");
+startActivity(Intent.createChooser(email, "Choose an email client"));
+}
+});
+}
+}
+
+
+---------------------------os-------------------------------
+
+slip 15
+
+Write a C program to Identify the type (Directory, character device, Block device, Regular file, FIFO
+or pipe, symbolic link or socket) of given file using stat() system call.
+
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<dirent.h>
+#include<string.h>
+#include<pwd.h>
+#include<grp.h>
+#include<time.h>
+int main(int args, char *argv[])
+{
+    struct stat s;
+    struct passwd *ps;
+    struct group *gs;
+    char t[50];
+
+    if(args<2){
+        printf("No file name found");
+        exit(0);
+    }
+
+    stat(argv[1], &s);
+    printf("\n");
+
+    if(S_ISREG(s.st_mode)){
+        printf("\n it is Regular file");
+    }
+    if(S_ISDIR(s.st_mode)){
+        printf("\n it is directory");
+    }
+    if(S_ISCHR(s.st_mode)){
+        printf("\n it is charcter file");
+    }
+    if(S_ISFIFO(s.st_mode)){
+        printf("\n it is fifo /pipe");
+    }
+    if(S_ISBLK(s.st_mode)){
+        printf("\nit is Block file");
+    }
+    if(S_ISLNK(s.st_mode)){
+        printf("\n it is symbolic link");
+    }
+    if(S_ISSOCK(s.st_mode)){
+        printf("\n it is socket file");
+    }
+    return 0;
+}
+
+compile and run
+./a.out foldername
+next time 
+./a.out filename
+
+
+Write a C program which creates a child process and child process catches a signal SIGHUP,
+SIGINT and SIGQUIT. The Parent process send a SIGHUP or SIGINT signal after every 3 seconds, at
+the end of 15 second parent send SIGQUIT signal to child and child terminates by displaying message
+"My Papa has Killed me!!!”.
+
+#include<stdio.h>
+#include<signal.h>
+#include<unistd.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<fcntl.h>
+#include<stdlib.h>
+ void sh(){
+        printf("\nSIGINT is caught");
+    signal(SIGINT, sh);   
+}
+void sh2(){
+printf("\nSIGHUP is caught");
+signal(SIGHUP, sh2);
+}
+
+void sh3(){
+printf("\nMy papa has killed me");
+
+        exit(0);
+}     
+
+int main(){
+    int n=fork();
+    if(n==0){
+        signal(SIGINT, sh);
+        signal(SIGHUP,sh2);
+        signal(SIGQUIT,sh3);
+        while(1){
+
+        }
+    }
+    else{
+        sleep(3);
+        kill(n,SIGINT);
+        sleep(3);
+        kill(n,SIGHUP);
+        sleep(3);
+        kill(n,SIGINT);
+        sleep(3);
+        kill(n,SIGHUP);
+        sleep(3);
+        kill(n,SIGINT);
+        sleep(3);
+
+        kill(n,SIGQUIT);
+        exit(0);
+    }
+    return 0;
+}
+
+compile and run automaitcally it will run
+
+
+

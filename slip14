@@ -1,0 +1,378 @@
+----------------------mt---------------------------
+slip 14
+
+Construct an android application that toggle a light bulb on and off when the user clicks on
+toggle button
+xml file
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="16dp">
+<ToggleButton
+android:id="@+id/toggleButton"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_centerHorizontal="true"
+android:textOff="OFF"
+android:textOn="ON" />
+<ImageView
+android:id="@+id/imageView"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_below="@id/toggleButton"
+android:layout_centerHorizontal="true" />
+</RelativeLayout>
+</LinearLayout>
+
+java file
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ToggleButton;
+public class MainActivity extends AppCompatActivity {
+private ToggleButton toggleButton;
+private ImageView imageView;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+// Find views by their IDs
+toggleButton = findViewById(R.id.toggleButton);
+imageView = findViewById(R.id.imageView);
+// Set toggle button listener
+toggleButton.setOnCheckedChangeListener(new
+CompoundButton.OnCheckedChangeListener() {
+@Override
+public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+// Update image based on toggle button state
+if (isChecked) {
+imageView.setImageResource(R.drawable.ic_image_on);
+} else {
+imageView.setImageResource(R.drawable.ic_image_off);
+}
+}
+});
+}
+}
+
+Construct an Android application to accept a number and calculate Armstrong and Perfect
+number of a given number using Menu.
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<EditText
+android:layout_marginTop="200dp"
+android:layout_marginLeft="50dp"
+android:layout_width="200dp"
+android:layout_height="50dp"
+android:id="@+id/et"
+android:hint="Enter a number"/>
+</LinearLayout>
+
+menu file
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/perfect"
+android:title="Perfect" /><item android:id="@+id/arms"
+android:title="Armstrong" />
+</menu>
+
+java file
+package com.example.datepicker;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+int num;
+String value;
+EditText et;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+}
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+//return super.onCreateOptionsMenu(menu);
+MenuInflater mi = getMenuInflater();
+mi.inflate(R.menu.menu, menu);
+return true;
+}
+@Override
+public boolean onOptionsItemSelected(@NonNull MenuItem item) {//return super.onOptionsItemSelected(item);
+et=(EditText) findViewById(R.id.et);
+value= et.getText().toString();
+if(!value.isEmpty()){
+try{
+num = Integer.parseInt(value);
+int id;
+id= item.getItemId();
+int t=num;
+switch(id){
+case R.id.perfect:int ans=0;
+int div=1;
+while(div<t){
+if (t%div==0)
+ans=ans + div;
+div++;
+}
+if(ans==num)
+Toast.makeText(getApplicationContext(), "Number "+ num+ " is perfect",
+Toast.LENGTH_SHORT).show();
+else
+Toast.makeText(getApplicationContext(), "Number "+ num+ " is not perfect",
+Toast.LENGTH_SHORT).show();
+break;
+case R.id.arms:ans=0;
+while(t>0){
+int rem = t%10;
+ans += Math.pow(rem, 3);
+t=t/10;
+}
+if(ans==num)
+Toast.makeText(this, "Number "+ num + " is an armstrong number",
+Toast.LENGTH_SHORT).show();
+else
+Toast.makeText(this, "Number "+ num + " is not an armstrong number",
+Toast.LENGTH_SHORT).show();
+break;
+}
+}
+catch (NumberFormatException ne){
+Log.e("Error", ""+ne.getMessage());
+}
+return true;
+}}
+----------------------------------------os---------------
+slip 14
+
+Write a C program to create an unnamed pipe. Write following three messages to pipe and display it.
+Message1 = “Hello World”
+Message2 = “Hello SPPU”
+Message3 = “Linux is Funny”
+#include<stdio.h>
+#include<fcntl.h>
+#include<stdlib.h>
+int main()
+{
+ int p[2],i,n;
+ char buf[70];
+ char *m1="Message1 = Hello World";
+ char *m2="Message2 = Hello SPPU";
+ char *m3="Message3 = LINUX is Funny";
+	if(pipe(p)<0)
+	exit(0);
+n=fork();
+if(n==0)
+{
+	//printf("CHILD WRITTEN:\n");
+	write(p[1],m1,70);
+	write(p[1],m2,70);
+	write(p[1],m3,70);
+}
+	else{
+	printf("PARENT READS:\n");
+		for(i=0;i<3;i++)
+ 		{
+ 	 	read(p[0],buf,70);
+  		printf("%s\n",buf);
+ 		}
+	}
+return 0;
+}
+
+
+
+
+Write a C program that behaves like a shell (command interpreter). It has its own prompt say
+“NewShell$”.Any normal shell command is executed from your shell by starting a child process to
+execute the system program corresponding to the command. It should additionally interpret the
+following command.
+i)
+search f <pattern><filename> - search first occurrence of pattern in filename
+ii)
+search c <pattern><filename> - count no. of occurrences of pattern in filename
+iii)
+search a <pattern><filename> - search all occurrences of pattern in filename
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<string.h>
+#include<dirent.h>
+void search(char,char*,char*);
+int main()
+{
+char comm[80],t1[20],t2[20],t3[20],t4[20];
+int n;
+system("clear");
+while(1)
+{
+printf("MyShell$");
+fflush(stdin);
+fgets(comm,80,stdin);
+n=sscanf(comm,"%s%s%s%s",t1,t2,t3,t4);
+switch(n)
+{
+case 1:
+	if(!fork())
+	{
+	execlp(t1,t1,NULL);
+	perror(t1);
+	}
+	break;
+case 2:
+	if(!fork())
+	{
+	execlp(t1,t1,t2,NULL);
+	perror(t1);
+	}
+	break;
+case 3:
+	if(!fork())
+	{
+	execlp(t1,t1,t2,t3,NULL);
+	perror(t1);
+	}
+	break;
+case 4:
+	if(strcmp(t1,"search")==0)
+		  search(t2[0],t3,t4);
+	else
+	if(!fork())
+	{
+	execlp(t1,t1,t2,t3,t4,NULL);
+	perror(t1);
+	}
+	break;
+}
+}
+return 0;
+}
+
+void search(char opt,char *patt,char *fn)
+{
+int fd,i=1,j=0,cnt=0;
+char ch,buff[80],*p;
+fd=open(fn,O_RDONLY);
+if(fd<0)
+{
+printf("unable to open file");
+exit(0);
+}
+
+switch(opt)
+{
+case 'f':
+	while(read(fd,&ch,1)!=0)
+	{
+		if(ch=='\n')
+		{
+			buff[j]='\0';
+			j=0;
+			if(strstr(buff,patt)!=NULL)
+			{
+			printf("%d\t%s",i,buff);
+			break;
+			}
+		}
+		else
+		buff[j++]=ch;
+	}
+	close(fd);
+	break;
+case 'c':
+	while(read(fd,&ch,1)!=0)
+	{
+		if(ch=='\n')
+		{
+			buff[j]='\0';
+			j=0;
+			if(strstr(buff,patt)!=NULL)
+			{
+			p=buff;
+			while((p=strstr(p,patt))!=NULL)
+			{
+			cnt++;
+			p++;
+			}
+		   }
+		}
+		else
+		buff[j++]=ch;
+	}
+	printf("\nOccurances=>%d",cnt);
+	close(fd);
+	break;
+case 'a':
+		while(read(fd,&ch,1)!=0)
+	{
+		if(ch=='\n')
+		{
+			buff[j]='\0';
+			j=0;
+			if(strstr(buff,patt)!=NULL)
+			{
+			p=buff;
+			while((p=strstr(p,patt))!=NULL)
+			{
+			printf("\n%d\t%s",i,p);
+			i++;
+			p++;
+			}
+			}
+		}
+		else
+		buff[j++]=ch;
+	}
+	close(fd);
+	break;		
+}
+}
+
+create a file b12.txt
+write name of your 5 friends
+compile the program and run and in my shell
+search f name b12.txt
+search c name b12.txt
+search a name b12.txt
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,423 @@
+-----------------------mt---------------------------------
+slip 3
+
+Create an Android Application to accept two numbers and create two buttons (power and
+Average). Display the result on the next activity on Button click [10]
+
+java file
+package com.example.myavgpowintent;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+public class MainActivity extends AppCompatActivity {
+EditText num1, num2;
+Button b1, b2;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+b1 = (Button) findViewById(R.id.b1);
+b2= (Button) findViewById(R.id.b2);
+b1.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+try{
+num1 = (EditText) findViewById(R.id.num1);
+num2 = (EditText) findViewById(R.id.num2);
+int n1 = Integer.parseInt(num1.getText().toString());
+int n2 = Integer.parseInt((num2.getText().toString()));
+int result = (int) Math.pow(n1, n2);
+Intent i = new Intent(getApplicationContext(), NewactActivity.class);i.putExtra("text", "Power=");
+i.putExtra("result", result);
+startActivity(i);
+}
+catch (NumberFormatException ne){
+Log.e("Error", "Error");
+}
+}
+});
+b2.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+try{
+num1 = (EditText) findViewById(R.id.num1);
+num2 = (EditText) findViewById(R.id.num2);
+int n1 = Integer.parseInt(num1.getText().toString());
+int n2 = Integer.parseInt((num2.getText().toString()));
+double result = (n1+n2)/2;
+Intent i = new Intent(getApplicationContext(), NewactActivity.class);
+i.putExtra("text", "Average=");
+i.putExtra("result", result);
+startActivity(i);
+}
+catch (NumberFormatException ne){
+Log.e("Error", "Error");
+}
+}
+});
+}
+}
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="200dp"
+android:orientation="horizontal"><EditText
+android:layout_width="100dp"
+android:layout_height="50dp"
+android:hint="Enter first number"
+android:id="@+id/num1" />
+<EditText
+android:layout_width="100dp"
+android:layout_height="50dp"
+android:hint="Enter second number"
+android:id="@+id/num2" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal" >
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/b1"
+android:text="Power" />
+<Button
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/b2"
+android:text="Average" />
+</LinearLayout>
+</LinearLayout>
+
+manifest file
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.example.myavgpowintent">
+<application
+android:allowBackup="true"
+android:icon="@mipmap/ic_launcher"
+android:label="@string/app_name"
+android:roundIcon="@mipmap/ic_launcher_round"
+android:supportsRtl="true"
+android:theme="@style/Theme.MyAvgPowIntent"><activity
+android:name=".NewactActivity"
+android:exported="false" />
+<activity
+android:name=".MainActivity"
+android:exported="true">
+<intent-filter>
+<action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+</activity>
+</application>
+</manifest>
+
+
+java 2nd file
+package com.example.myavgpowintent;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+public class NewactActivity extends AppCompatActivity {
+TextView tv;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.newact);
+tv = (TextView) findViewById(R.id.tv);
+Intent i = getIntent();
+Bundle extras = i.getExtras();
+String res = extras.getString("text");
+if(res.equals("Power=")){
+res+= extras.getInt("result");
+tv.setText(res);
+}
+else{
+res+=extras.getDouble("result");
+tv.setText(res);
+}}
+}
+
+xml second file
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".NewactActivity">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/tv" />
+</LinearLayout>
+
+
+Create an Android Application to perform following string operation according to user
+selection of radio button.
+
+
+xml file
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<TableRow>
+<TextView
+android:text="Enter String"
+android:layout_width="100dp"
+android:layout_height="50dp"/>
+<EditText
+android:id="@+id/input"
+android:layout_width="200dp"
+android:layout_height="50dp" />
+</TableRow><TableRow>
+<RadioGroup android:id="@+id/rg">
+<RadioButton
+android:layout_width="200dp"
+android:layout_height="50dp"
+android:id="@+id/r1"
+android:text="Uppercase"/>
+<RadioButton
+android:layout_width="200dp"
+android:layout_height="50dp"
+android:id="@+id/r2"
+android:text="Lowercase"/>
+<RadioButton
+android:layout_width="200dp"
+android:layout_height="50dp"
+android:id="@+id/r3"
+android:text="Right 5 characters"/>
+<RadioButton
+android:layout_width="200dp"
+android:layout_height="50dp"
+android:id="@+id/r4"
+android:text="Left 5 characters"/>
+</RadioGroup>
+</TableRow>
+<TableRow>
+<Button
+android:text="Output"
+android:layout_width="100dp"
+android:layout_height="50dp"
+android:id="@+id/btn"/>
+<EditText
+android:id="@+id/output"
+android:layout_height="50dp"
+android:layout_width="100dp"/>
+</TableRow>
+</TableLayout>
+
+
+
+java file
+package com.example.datepicker;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+EditText input, output;
+Button btn;
+RadioGroup rg;
+String inpstr, outstr, sub;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+input = (EditText) findViewById(R.id.input);
+output = (EditText) findViewById(R.id.output);
+rg = (RadioGroup) findViewById(R.id.rg);
+btn = (Button) findViewById(R.id.btn);
+btn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+int id = rg.getCheckedRadioButtonId();
+switch(id){
+case R.id.r1: inpstr = input.getText().toString();
+outstr=inpstr.toUpperCase();
+output.setText(outstr);
+break;
+case R.id.r2: inpstr = input.getText().toString();
+outstr=inpstr.toLowerCase();
+output.setText(outstr);
+break;
+case R.id.r3: inpstr = input.getText().toString();
+sub = inpstr.substring(inpstr.length()-5, inpstr.length());
+output.setText(sub);
+break;
+case R.id.r4: inpstr = input.getText().toString();
+sub="";
+sub = inpstr.substring(0, 5);
+output.setText(sub);
+break;
+}}
+});
+}
+}
+
+
+
+
+
+
+----------------------------os---------------------------
+slip 3
+Write a C program to find file properties such as inode number, number of hard link, File
+permissions, File size, File access and modification time and so on of a given file using stat() system
+call.
+
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<dirent.h>
+#include<string.h>
+#include<pwd.h>
+#include<grp.h>
+#include<time.h>
+int main(int args, char *argv[])
+{
+    struct stat s;
+    struct passwd *ps;
+    struct group *gs;
+    char t[50];
+
+    if(args<2){
+        printf("No file name found");
+        exit(0);
+    }
+
+    stat(argv[1], &s);
+    printf("\n");
+
+    if(S_ISREG(s.st_mode)){
+        printf("-");
+    }
+    if(S_ISDIR(s.st_mode)){
+        printf("d");
+    }
+    if(S_ISCHR(s.st_mode)){
+        printf("c");
+    }
+    if(S_ISFIFO(s.st_mode)){
+        printf("f");
+    }
+    if(S_ISBLK(s.st_mode)){
+        printf("b");
+    }
+    if(S_ISLNK(s.st_mode)){
+        printf("l");
+    }
+    if(S_ISSOCK(s.st_mode)){
+        printf("s");
+    }
+
+    printf((s.st_mode & S_IRUSR)?"r":"-");
+    printf((s.st_mode & S_IWUSR)?"w":"-");
+    printf((s.st_mode & S_IXUSR)?"x":"-");
+    printf((s.st_mode & S_IRGRP)?"r":"-");
+    printf((s.st_mode & S_IWGRP)?"w":"-");
+    printf((s.st_mode & S_IXGRP)?"x":"-");
+    printf((s.st_mode & S_IROTH)?"r":"-");
+    printf((s.st_mode & S_IWOTH)?"w":"-");
+    printf((s.st_mode & S_IXOTH)?"x":"-");
+
+
+    printf(" %d",s.st_nlink);
+    ps = getpwuid(s.st_uid);
+    printf(" %s",ps->pw_name);
+    gs = getgrgid(s.st_gid);
+    printf(" %s",gs->gr_name);
+
+    printf(" %d",s.st_size);
+    strcpy(t,ctime(&s.st_atim));
+    printf(" %s",t);
+    printf(" %s",argv[1]);
+
+    return 0;
+}
+
+compile 
+./a.out filename
+stat filename
+
+
+Write a C program to create ‘n’ child processes. When all ‘n’ child processes terminates, Display total
+cumulative time children spent in user and kernel mode.
+
+gcc #include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<sys/times.h>
+#include<time.h>
+
+
+int main(){
+    int c,n,s;
+    int i,j;
+    struct tms t2;
+    printf("\n Enter no of child");
+    scanf("%d",&n);
+    while(n-->0){
+        c =fork();
+        if(c==0){
+            printf("\nchildid=%d",getpid());
+            for(i=0,j=0;i<100000000;i++){
+                j=j+1;
+            }
+            exit(0);
+
+        }
+        else{
+            wait(&s);
+        
+        }
+    }
+    times(&t2);
+    double d= sysconf(_SC_CLK_TCK);
+    double ct= t2.tms_utime/d;
+    double st= t2.tms_stime/d;
+    double cct= t2.tms_cutime/d;
+    double cst= t2.tms_cstime/d;
+
+
+    printf("\nTime ct:%lf ",ct);
+    printf("\nTime st:%lf ",st);
+    printf("\nTime cct:%lf ",cct);
+    printf("\nTime cst:%lf ",cst);
+    return 0;
+}
+
+simple compile and run
+
+
